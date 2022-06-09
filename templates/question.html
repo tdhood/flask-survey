@@ -1,20 +1,29 @@
 {% extends 'base.html' %}
 {% block content %}
 
-  <h1>{{ question.question }}</h1>
+  <h1>{{ question_data.question }}</h1>
 
   <form action="/answer" method="POST">
 
+
+    {% for choice in question_data.choices %}
       <!-- you should have one item like this for every choice -->
       <p>
         <input
             type="radio"
             name="answer"
             value="value-goes-here">
-        choice-goes-here
+        {{ choice }}
       </p>
+    {% endfor %}
 
     <button>Continue</button>
   </form>
 
 {% endblock %}
+
+<!-- check what choices is -->
+<!-- for each item in choices list, make an input -->
+<!-- jinja loop -->
+
+<!-- value="data that persists]" -->

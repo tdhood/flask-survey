@@ -13,16 +13,25 @@ responses = []
 
 @app.get('/')
 def display_instructions():
+    """Displays survey instructions and start button"""
     title = survey.title
     instructions = survey.instructions
+
     return render_template("survey_start.html", title=title, instructions=instructions)
 
 @app.post('/begin')
 def start_survey():
+    """Redirects to first question"""
 
     return redirect('/questions/0')
 
-@app.get('/questions/0')
-def show_question():
+@app.get('/questions/<num>')
+def show_question(num):
+    """Generate survey question"""
 
-    return render_template("question.html")
+    # var = request.args[]
+    question_data = survey.questions[int(num)]
+    # choices = survey.questions[int(num)].choices
+
+    return render_template("question.html", question_data=question_data)
+    # return render_template("question.html", question=question, choices=choices)
