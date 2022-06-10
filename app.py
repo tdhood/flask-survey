@@ -11,6 +11,7 @@ debug = DebugToolbarExtension(app)
 responses = []
 
 
+
 @app.get('/')
 def display_instructions():
     """Displays survey instructions and start button"""
@@ -23,15 +24,26 @@ def display_instructions():
 def start_survey():
     """Redirects to first question"""
 
-    return redirect('/questions/0')
+    return redirect(f'/questions/{len(responses)}')
 
 @app.get('/questions/<num>')
 def show_question(num):
     """Generate survey question"""
-
-    # var = request.args[]
+   
     question_data = survey.questions[int(num)]
-    # choices = survey.questions[int(num)].choices
 
     return render_template("question.html", question_data=question_data)
-    # return render_template("question.html", question=question, choices=choices)
+    
+
+@app.post('/answer')
+def save_answer_and_next_question():
+    """capture the answer of question and send user to new question"""
+    
+    answer = request.form['answer']
+    responses.append(answer)
+    
+    if len(responses) < len(survey.questions):
+        return redirect(f'/questions/{len(responses)}')
+    else:
+        responses.clear()
+        return render_template('completion.html')
